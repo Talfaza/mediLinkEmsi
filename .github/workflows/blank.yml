@@ -29,7 +29,11 @@ jobs:
 
       - name: Build and Test Backend
         run: |
-          cd src
+          # List directory contents to debug
+          ls -la
+          # Navigate to the correct directory containing pom.xml
+          cd src/main
+          # Run Maven build
           mvn clean package
 
   frontend:
