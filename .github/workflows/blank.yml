@@ -3,8 +3,14 @@ name: Medilink CI Pipeline
 on:
   push:
     branches: [ "main", "dev" ]
+    paths:
+      - 'src/**'               
+      - 'medi_front/**'        
   pull_request:
     branches: [ "main", "dev" ]
+    paths:
+      - 'src/**'
+      - 'medi_front/**'
 
 jobs:
   backend:
@@ -49,4 +55,3 @@ jobs:
         run: |
           cd medi_front
           npm run build
-
