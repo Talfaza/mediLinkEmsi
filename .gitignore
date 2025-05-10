@@ -1,0 +1,76 @@
+# Java Backend
+target/
+*.class
+*.jar
+*.war
+*.ear
+*.log
+*.iml
+.idea/
+*.iws
+*.ipr
+.settings/
+.classpath
+.project
+.factorypath
+
+# React Frontend
+medi_front/node_modules/
+medi_front/dist/
+medi_front/build/
+medi_front/.env
+medi_front/.env.local
+medi_front/.env.development.local
+medi_front/.env.test.local
+medi_front/.env.production.local
+medi_front/npm-debug.log*
+medi_front/yarn-debug.log*
+medi_front/yarn-error.log*
+medi_front/.pnp
+medi_front/.pnp.js
+medi_front/coverage/
+medi_front/.next/
+medi_front/out/
+
+# Android Mobile
+medi_mobile/.gradle/
+medi_mobile/app/build/
+medi_mobile/build/
+medi_mobile/local.properties
+medi_mobile/.idea/
+medi_mobile/*.iml
+medi_mobile/.DS_Store
+medi_mobile/captures/
+medi_mobile/gradlew
+medi_mobile/gradlew.bat
+medi_mobile/gradle/wrapper/gradle-wrapper.jar
+medi_mobile/.gradle
+medi_mobile/app/release/
+
+# IDE
+.vscode/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Docker
+.docker/
+docker-compose.override.yml
+
+# Database
+*.sql
+*.sqlite
+*.db
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment variables
+.env
+.env.local
+.env.*.local
