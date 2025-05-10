@@ -13,9 +13,9 @@ public class PatientFetchByIdTest {
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("medilinkPU");
             EntityManager em = emf.createEntityManager();
 
-            Patient patient14 = em.find(Patient.class, 14L);
+            Patient patient14 = em.find(Patient.class, 13L);
             if (patient14 != null) {
-                System.out.println("Patient with ID 14: " + patient14.getFirstName() + " " + patient14.getLastName() + ", Email: " + patient14.getEmail());
+                System.out.println("Patient with ID 13: " + patient14.getFirstName() + " " + patient14.getLastName() + ", Email: " + patient14.getEmail());
                 List<Appointment> appointments = em.createQuery(
                     "SELECT a FROM Appointment a WHERE a.patient = :patient ORDER BY a.date, a.time", Appointment.class)
                     .setParameter("patient", patient14)
