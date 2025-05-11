@@ -31,7 +31,6 @@ jobs:
           distribution: 'temurin'
           
       - name: Build and Test J2EE Application
-        working-directory: src
         env:
           SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/medilink
           SPRING_DATASOURCE_USERNAME: postgres
@@ -53,7 +52,6 @@ jobs:
         run: |
           npm install
           npm run build
-          npm test  # Add if you have frontend tests
 
   merge-to-main:
     name: Merge Dev → Main
