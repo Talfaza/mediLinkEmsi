@@ -1,21 +1,40 @@
-name: Medilink CI Pipeline
+name: Medilink CI/CD Pipeline
 
 on:
   push:
-    branches: [ "main", "dev" ]
+    branches: [ "dev" ]
     paths:
-      - 'src/**'               
-      - 'medi_front/**'        
-  pull_request:
-    branches: [ "main", "dev" ]
-    paths:
-      - 'src/**'
-      - 'medi_front/**'
+      - 'src/**'              # Java backend files
+      - 'medi_front/**'       # React frontend files
 
 jobs:
-  backend:
-    name: Backend Build and Test
+  test-and-build-backend:
+    name: Build & Test Backend
     runs-on: ubuntu-latest
+    if: contains(github.event.head_commit.message, '[backend]')  # UNCOMMENTED CONDITION
+
+    services:
+      postgres:
+        image: postgres:15
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_DB: medilink
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: yahia@14
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      DB_HOST: localhost
+      DB_PORT: 5432
+      DB_NAME: medilink
+      DB_USER: postgres
+      DB_PASSWORD: yahia@14
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -23,22 +42,25 @@ jobs:
       - name: Set up Java 21
         uses: actions/setup-java@v4
         with:
-          java-version: '21'
+          java-version: 21
           distribution: 'temurin'
-          cache: 'maven'
+
+      - name: Cache Maven dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('src/pom.xml') }}
+          restore-keys: ${{ runner.os }}-maven-
 
       - name: Build and Test Backend
-        run: |
-          # List directory contents to debug
-          ls -la
-          # Navigate to the correct directory containing pom.xml
-          cd src/main
-          # Run Maven build
-          mvn clean package
+        working-directory: src
+        run: mvn clean package
 
-  frontend:
-    name: Frontend Build and Test
+  test-and-build-frontend:
+    name: Build Frontend
     runs-on: ubuntu-latest
+    if: contains(github.event.head_commit.message, '[frontend]')
+    
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -50,12 +72,38 @@ jobs:
           cache: 'npm'
           cache-dependency-path: medi_front/package-lock.json
 
-      - name: Install Frontend Dependencies
+      - name: Install Dependencies & Build
+        working-directory: medi_front
         run: |
-          cd medi_front
           npm ci
-
-      - name: Build Frontend
-        run: |
-          cd medi_front
           npm run build
+
+  deploy-to-main:
+    name: Auto-Merge Dev → Main
+    needs: [test-and-build-backend, test-and-build-frontend]
+    runs-on: ubuntu-latest
+    if: |
+      always() && 
+      (needs.test-and-build-backend.result == 'success' || 
+       needs.test-and-build-frontend.result == 'success' ||
+       (needs.test-and-build-backend.result == 'skipped' && 
+        needs.test-and-build-frontend.result == 'skipped'))
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: dev
+
+      - name: Configure Git
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+
+      - name: Merge dev into main
+        run: |
+          git fetch origin main
+          git checkout main
+          git merge --ff-only dev --no-edit
+          git push origin main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
