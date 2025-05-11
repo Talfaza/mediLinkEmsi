@@ -11,7 +11,30 @@ jobs:
   test-and-build-backend:
     name: Build & Test Backend
     runs-on: ubuntu-latest
-    if: contains(github.event.head_commit.message, '[backend]') || true
+    if: contains(github.event.head_commit.message, '[backend]')  # UNCOMMENTED CONDITION
+
+    services:
+      postgres:
+        image: postgres:15
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_DB: medilink
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: yahia@14
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      DB_HOST: localhost
+      DB_PORT: 5432
+      DB_NAME: medilink
+      DB_USER: postgres
+      DB_PASSWORD: yahia@14
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -36,7 +59,8 @@ jobs:
   test-and-build-frontend:
     name: Build Frontend
     runs-on: ubuntu-latest
-    if: contains(github.event.head_commit.message, '[frontend]') || true
+    if: contains(github.event.head_commit.message, '[frontend]')
+    
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -58,6 +82,12 @@ jobs:
     name: Auto-Merge Dev → Main
     needs: [test-and-build-backend, test-and-build-frontend]
     runs-on: ubuntu-latest
+    if: |
+      always() && 
+      (needs.test-and-build-backend.result == 'success' || 
+       needs.test-and-build-frontend.result == 'success' ||
+       (needs.test-and-build-backend.result == 'skipped' && 
+        needs.test-and-build-frontend.result == 'skipped'))
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -73,7 +103,7 @@ jobs:
         run: |
           git fetch origin main
           git checkout main
-          git merge dev --no-edit
+          git merge --ff-only dev --no-edit
           git push origin main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
