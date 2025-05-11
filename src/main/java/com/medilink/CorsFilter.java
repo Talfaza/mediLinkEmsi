@@ -12,7 +12,7 @@ public class CorsFilter implements Filter {
         HttpServletResponse response = (HttpServletResponse) res;
         HttpServletRequest request = (HttpServletRequest) req;
 
-        // Get the origin from the request
+      
         String origin = request.getHeader("Origin");
         if (origin != null) {
             // Allow specific origins
