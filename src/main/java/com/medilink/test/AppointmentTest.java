@@ -47,7 +47,7 @@ public class AppointmentTest {
 
             em.persist(appointment);
             em.getTransaction().commit();
-            System.out.println("Appointment created with ID : " + appointment.getId());
+            System.out.println("Appointment created with id : " + appointment.getId());
         } catch (Exception e) {
             em.getTransaction().rollback();
             e.printStackTrace();

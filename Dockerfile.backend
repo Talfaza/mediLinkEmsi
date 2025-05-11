@@ -3,7 +3,7 @@ WORKDIR /app
 COPY pom.xml .
 COPY src ./src
 RUN mvn clean package
-
+ 
 FROM openjdk:17-slim
 WORKDIR /app
 COPY --from=build /app/target/medilink.war /app/medilink.war
