@@ -4,15 +4,15 @@ on:
   push:
     branches: [ "dev" ]
     paths:
-      - 'src/**'              # Java backend files
-      - 'medi_front/**'       # React frontend files
+      - 'src/**'
+      - 'medi_front/**'
 
 jobs:
   test-and-build-backend:
     name: Build & Test Backend
     runs-on: ubuntu-latest
-    if: contains(github.event.head_commit.message, '[backend]')  # UNCOMMENTED CONDITION
-
+    if: contains(join(github.event.commits.*.modified, ' '), 'src/')
+    
     services:
       postgres:
         image: postgres:15
@@ -59,7 +59,7 @@ jobs:
   test-and-build-frontend:
     name: Build Frontend
     runs-on: ubuntu-latest
-    if: contains(github.event.head_commit.message, '[frontend]')
+    if: contains(join(github.event.commits.*.modified, ' '), 'medi_front/')
     
     steps:
       - name: Checkout code
@@ -83,11 +83,9 @@ jobs:
     needs: [test-and-build-backend, test-and-build-frontend]
     runs-on: ubuntu-latest
     if: |
-      always() && 
-      (needs.test-and-build-backend.result == 'success' || 
-       needs.test-and-build-frontend.result == 'success' ||
-       (needs.test-and-build-backend.result == 'skipped' && 
-        needs.test-and-build-frontend.result == 'skipped'))
+      always() &&
+      (needs.test-and-build-backend.result == 'success' || needs.test-and-build-backend.result == 'skipped') &&
+      (needs.test-and-build-frontend.result == 'success' || needs.test-and-build-frontend.result == 'skipped')
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
