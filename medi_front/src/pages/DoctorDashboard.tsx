@@ -286,7 +286,7 @@ export default function DoctorDashboard() {
               endAccessor="end"
               style={{ height: 500 }}
               className="text-gray-100"
-              eventPropGetter={(event: any) => ({
+              eventPropGetter={(_event: any) => ({
                 style: {
                   backgroundColor: '#06b6d4',
                   color: '#fff',
