@@ -27,7 +27,7 @@ public class VerifyServlet extends HttpServlet {
         resp.setContentType("text/html");
         PrintWriter out = resp.getWriter();
         if (token == null || token.isEmpty()) {
-            out.println("<h2>Invalid verification link.</h2>");
+            out.println("<h2>Invalid verification link</h2>");
             return;
         }
         EntityManager em = emf.createEntityManager();
