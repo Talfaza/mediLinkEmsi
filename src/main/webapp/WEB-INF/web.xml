@@ -1,0 +1,138 @@
+<!DOCTYPE web-app PUBLIC
+ "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+ "http://java.sun.com/dtd/web-app_2_3.dtd" >
+
+<web-app>
+  <display-name>Archetype Created Web Application</display-name>
+
+  <servlet>
+    <servlet-name>VerifyServlet</servlet-name>
+    <servlet-class>com.medilink.VerifyServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>VerifyServlet</servlet-name>
+    <url-pattern>/verify</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>DoctorRegisterServlet</servlet-name>
+    <servlet-class>com.medilink.DoctorRegisterServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DoctorRegisterServlet</servlet-name>
+    <url-pattern>/api/doctor/register</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>PatientRegisterServlet</servlet-name>
+    <servlet-class>com.medilink.PatientRegisterServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>PatientRegisterServlet</servlet-name>
+    <url-pattern>/api/patient/register</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>PatientLoginServlet</servlet-name>
+    <servlet-class>com.medilink.PatientLoginServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>PatientLoginServlet</servlet-name>
+    <url-pattern>/api/patient/login</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>PatientAppointmentServlet</servlet-name>
+    <servlet-class>com.medilink.PatientAppointmentServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>PatientAppointmentServlet</servlet-name>
+    <url-pattern>/api/patient/appointments</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>PatientDoctorListServlet</servlet-name>
+    <servlet-class>com.medilink.PatientDoctorListServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>PatientDoctorListServlet</servlet-name>
+    <url-pattern>/api/patient/doctors</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>DoctorLoginServlet</servlet-name>
+    <servlet-class>com.medilink.DoctorLoginServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DoctorLoginServlet</servlet-name>
+    <url-pattern>/api/doctor/login</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>DoctorLogoutServlet</servlet-name>
+    <servlet-class>com.medilink.DoctorLogoutServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DoctorLogoutServlet</servlet-name>
+    <url-pattern>/api/doctor/logout</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>DoctorSessionServlet</servlet-name>
+    <servlet-class>com.medilink.DoctorSessionServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DoctorSessionServlet</servlet-name>
+    <url-pattern>/api/doctor/session</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>DoctorProtectedDashboardServlet</servlet-name>
+    <servlet-class>com.medilink.DoctorProtectedDashboardServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DoctorProtectedDashboardServlet</servlet-name>
+    <url-pattern>/api/doctor/protected/dashboard</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>DoctorAppointmentServlet</servlet-name>
+    <servlet-class>com.medilink.DoctorAppointmentServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DoctorAppointmentServlet</servlet-name>
+    <url-pattern>/api/doctor/appointments</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>PatientListServlet</servlet-name>
+    <servlet-class>com.medilink.PatientListServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>PatientListServlet</servlet-name>
+    <url-pattern>/api/patients</url-pattern>
+  </servlet-mapping>
+
+  <filter>
+    <filter-name>CorsFilter</filter-name>
+    <filter-class>com.medilink.CorsFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>CorsFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+
+  <filter>
+    <filter-name>DoctorAuthFilter</filter-name>
+    <filter-class>com.medilink.DoctorAuthFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>DoctorAuthFilter</filter-name>
+    <url-pattern>/api/doctor/protected/*</url-pattern>
+  </filter-mapping>
+
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+  </welcome-file-list>
+
+</web-app>

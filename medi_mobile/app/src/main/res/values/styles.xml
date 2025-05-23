@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="BirthdayInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="endIconMode">custom</item>
+        <item name="endIconDrawable">@drawable/ic_calendar</item>
+        <item name="endIconTint">@color/slate_300</item>
+        <item name="boxBackgroundColor">@color/slate_700_50</item>
+        <item name="boxStrokeColor">@color/slate_600</item>
+        <item name="hintTextColor">@color/slate_300</item>
+    </style>
+</resources> 
